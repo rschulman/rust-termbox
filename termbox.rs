@@ -129,9 +129,9 @@ pub fn clear() {
     }
 }
 
-// /**
-//  * Write buffer to terminal.
-//  */
+/**
+ * Write buffer to terminal.
+ */
 pub fn present() { 
     unsafe {
         c::tb_present(); 
@@ -187,9 +187,9 @@ pub fn print(x: uint, y: uint, sty: Style, fg: Color, bg: Color, s: ~str) {
     }
 }
 
-// /**
-//  * Print a charater to the buffer.
-//  */
+/**
+ * Print a charater to the buffer.
+ */
 pub fn print_ch(x: uint, y: uint, sty: Style, fg: Color, bg: Color, ch: char) {
     unsafe {
         let fg: u16 = convert_color(fg) | convert_style(sty);
@@ -251,9 +251,9 @@ pub fn peek_event(timeout: uint) -> Event {
     }
 }
 
-// /**
-//  * Blocking function to return urn next event.
-//  */
+/**
+ * Blocking function to return urn next event.
+ */
 pub fn poll_event() -> Event {
     unsafe {
         let ev = nil_raw_event();
@@ -262,14 +262,14 @@ pub fn poll_event() -> Event {
     }
 }
 
-// /* helper pub fn
-//  *
-//  * ev_type
-//  *   0 -> no event
-//  *   1 -> key
-//  *   2 -> resize
-//  *   -1 -> error
-//  */
+/* helper pub fn
+ *
+ * ev_type
+ *   0 -> no event
+ *   1 -> key
+ *   2 -> resize
+ *   -1 -> error
+ */
 pub fn unpack_event(ev_type: c_int, ev: &RawEvent) -> Event {
     match ev_type {
         0 => NoEvent,
