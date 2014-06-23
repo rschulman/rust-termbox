@@ -1,12 +1,13 @@
-use std;
-use termbox;
+extern crate termbox;
 
-import tb = termbox;
+use tb = termbox;
 
 fn main() {
     tb::init();
-    tb::print(1, 1, tb::bold, tb::white, tb::black, "Hello, world!");
+    tb::print(1, 1, tb::Bold, tb::White, tb::Black, ~"Hello, world!");
     tb::present();
-    std::timer::sleep(std::uv_global_loop::get(), 1000);
+
+    std::io::timer::sleep(1000);
+
     tb::shutdown();
 }
