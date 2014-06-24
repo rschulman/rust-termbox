@@ -1,0 +1,20 @@
+[package]
+
+name = "rust-termbox"
+version = "0.5.0"
+authors = [ "ross@rbs.io", "sodaplayer" ]
+build = "make"
+
+[[lib]]
+name = "rust-termbox"
+crate_type = [ "staticlib" ]
+path = "termbox.rs"
+
+[[bin]]
+name = "demo"
+path = "examples/demo.rs"
+
+[[bin]]
+name = "hello"
+path = "examples/hello.rs"
+
