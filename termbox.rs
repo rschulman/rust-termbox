@@ -155,23 +155,24 @@ pub fn change_cell(x: uint, y: uint, ch: u32, fg: u16, bg: u16) {
 /// Convert from enums to u16
 pub fn convert_color(c: Color) -> u16 {
     match c {
-        Black   => 0x00,
-        Red     => 0x01,
-        Green   => 0x02,
-        Yellow  => 0x03,
-        Blue    => 0x04,
-        Magenta => 0x05,
-        Cyan    => 0x06,
-        White   => 0x07,
+        Default => 0x00,
+        Black   => 0x01,
+        Red     => 0x02,
+        Green   => 0x03,
+        Yellow  => 0x04,
+        Blue    => 0x05,
+        Magenta => 0x06,
+        Cyan    => 0x07,
+        White   => 0x08,
     }
 }
 
 pub fn convert_style(sty: Style) -> u16 {
     match sty {
-        Normal         => 0x00,
-        Bold           => 0x10,
-        Underline      => 0x20,
-        BoldUnderline => 0x30,
+        Normal         => 0x000,
+        Bold           => 0x100,
+        Underline      => 0x200,
+        BoldUnderline  => 0x300,
     }
 }
 
@@ -200,6 +201,7 @@ pub fn print_ch(x: uint, y: uint, sty: Style, fg: Color, bg: Color, ch: char) {
 }
 
 pub enum Color {
+    Default,
     Black,
     Red,
     Green,
