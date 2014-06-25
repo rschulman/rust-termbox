@@ -7,7 +7,7 @@ build = "make"
 
 [[lib]]
 name = "rust-termbox"
-crate_type = [ "staticlib" ]
+crate_type = [ "dylib", "staticlib" ]
 path = "termbox.rs"
 
 #[[bin]]
