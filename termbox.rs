@@ -211,6 +211,8 @@ bitflags!(
   }
 )
 
+pub static Normal: Style = Style { bits: 0 };
+
 //Convenience functions
 pub fn with_term(f: proc():Send) {
     init();
