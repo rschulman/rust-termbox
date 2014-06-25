@@ -10,11 +10,11 @@ name = "rust-termbox"
 crate_type = [ "staticlib" ]
 path = "termbox.rs"
 
-[[bin]]
-name = "demo"
-path = "examples/demo.rs"
+#[[bin]]
+#name = "demo"
+#path = "examples/demo.rs"
 
-[[bin]]
-name = "hello"
-path = "examples/hello.rs"
+#[[bin]]
+#name = "hello"
+#path = "examples/hello.rs"
 

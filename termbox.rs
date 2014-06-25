@@ -5,7 +5,8 @@
 
 
 extern crate std;
-use std::libc::types::os::arch::c95::{ c_int, c_uint};
+extern crate libc;
+use libc::types::os::arch::c95::{ c_int, c_uint};
 use std::task;
 
 /*
@@ -74,7 +75,7 @@ pub struct RawEvent {
  * Foreign functions from termbox.
  */
 mod c {
-    use std::libc::types::os::arch::c95::{ c_int, c_uint};
+    use libc::types::os::arch::c95::{ c_int, c_uint};
 
     #[link(name = "termbox")]
     extern {
@@ -177,7 +178,7 @@ pub fn convert_style(sty: Style) -> u16 {
 /**
  * Print a string to the buffer.  Leftmost charater is at (x, y).
  */
-pub fn print(x: uint, y: uint, sty: Style, fg: Color, bg: Color, s: ~str) {
+pub fn print(x: uint, y: uint, sty: Style, fg: Color, bg: Color, s: &str) {
     let fg: u16 = convert_color(fg) | convert_style(sty);
     let bg: u16 = convert_color(bg);
     for (i, ch) in s.chars().enumerate() {
@@ -217,7 +218,7 @@ pub enum Style {
 }
 
 //Convenience functions
-pub fn with_term(f: proc:Send()) {
+pub fn with_term(f: proc():Send) {
     init();
     let res = task::try(f);
     shutdown();

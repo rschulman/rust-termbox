@@ -4,4 +4,4 @@ demo
 hello
 libtermbox*.so
 *.swp
-
+target/*
