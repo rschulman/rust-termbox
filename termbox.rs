@@ -167,20 +167,11 @@ pub fn convert_color(c: Color) -> u16 {
     }
 }
 
-pub fn convert_style(sty: Style) -> u16 {
-    match sty {
-        Normal         => 0x000,
-        Bold           => 0x100,
-        Underline      => 0x200,
-        BoldUnderline  => 0x300,
-    }
-}
-
 /**
  * Print a string to the buffer.  Leftmost charater is at (x, y).
  */
 pub fn print(x: uint, y: uint, sty: Style, fg: Color, bg: Color, s: &str) {
-    let fg: u16 = convert_color(fg) | convert_style(sty);
+    let fg: u16 = convert_color(fg) | sty.bits();
     let bg: u16 = convert_color(bg);
     for (i, ch) in s.chars().enumerate() {
         unsafe {
@@ -194,7 +185,7 @@ pub fn print(x: uint, y: uint, sty: Style, fg: Color, bg: Color, s: &str) {
  */
 pub fn print_ch(x: uint, y: uint, sty: Style, fg: Color, bg: Color, ch: char) {
     unsafe {
-        let fg: u16 = convert_color(fg) | convert_style(sty);
+        let fg: u16 = convert_color(fg) | sty.bits();
         let bg: u16 = convert_color(bg);
         c::tb_change_cell(x as c_uint, y as c_uint, ch as u32, fg, bg);
     }
@@ -212,12 +203,13 @@ pub enum Color {
     White
 }
 
-pub enum Style {
-    Normal,
-    Bold,
-    Underline,
-    BoldUnderline
-}
+bitflags!(
+  flags Style: u16 {
+    static Bold      = 0x100,
+    static Underline = 0x200,
+    static Reverse   = 0x400
+  }
+)
 
 //Convenience functions
 pub fn with_term(f: proc():Send) {
