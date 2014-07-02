@@ -155,23 +155,15 @@ pub fn change_cell(x: uint, y: uint, ch: u32, fg: u16, bg: u16) {
 /// Convert from enums to u16
 pub fn convert_color(c: Color) -> u16 {
     match c {
-        Black   => 0x00,
-        Red     => 0x01,
-        Green   => 0x02,
-        Yellow  => 0x03,
-        Blue    => 0x04,
-        Magenta => 0x05,
-        Cyan    => 0x06,
-        White   => 0x07,
-    }
-}
-
-pub fn convert_style(sty: Style) -> u16 {
-    match sty {
-        Normal         => 0x00,
-        Bold           => 0x10,
-        Underline      => 0x20,
-        BoldUnderline => 0x30,
+        Default => 0x00,
+        Black   => 0x01,
+        Red     => 0x02,
+        Green   => 0x03,
+        Yellow  => 0x04,
+        Blue    => 0x05,
+        Magenta => 0x06,
+        Cyan    => 0x07,
+        White   => 0x08,
     }
 }
 
@@ -179,7 +171,7 @@ pub fn convert_style(sty: Style) -> u16 {
  * Print a string to the buffer.  Leftmost charater is at (x, y).
  */
 pub fn print(x: uint, y: uint, sty: Style, fg: Color, bg: Color, s: &str) {
-    let fg: u16 = convert_color(fg) | convert_style(sty);
+    let fg: u16 = convert_color(fg) | sty.bits();
     let bg: u16 = convert_color(bg);
     for (i, ch) in s.chars().enumerate() {
         unsafe {
@@ -193,13 +185,14 @@ pub fn print(x: uint, y: uint, sty: Style, fg: Color, bg: Color, s: &str) {
  */
 pub fn print_ch(x: uint, y: uint, sty: Style, fg: Color, bg: Color, ch: char) {
     unsafe {
-        let fg: u16 = convert_color(fg) | convert_style(sty);
+        let fg: u16 = convert_color(fg) | sty.bits();
         let bg: u16 = convert_color(bg);
         c::tb_change_cell(x as c_uint, y as c_uint, ch as u32, fg, bg);
     }
 }
 
 pub enum Color {
+    Default,
     Black,
     Red,
     Green,
@@ -210,12 +203,15 @@ pub enum Color {
     White
 }
 
-pub enum Style {
-    Normal,
-    Bold,
-    Underline,
-    BoldUnderline
-}
+bitflags!(
+  flags Style: u16 {
+    static Bold      = 0x100,
+    static Underline = 0x200,
+    static Reverse   = 0x400
+  }
+)
+
+pub static Normal: Style = Style { bits: 0 };
 
 //Convenience functions
 pub fn with_term(f: proc():Send) {
